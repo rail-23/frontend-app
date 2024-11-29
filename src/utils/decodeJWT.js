@@ -1,4 +1,5 @@
-import jwt_decode from 'jwt-decode'; // Importación correcta
+const jwtDecode = require('jwt-decode');
+
 
 const decodeToken = () => {
   try {
