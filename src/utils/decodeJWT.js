@@ -1,23 +1,16 @@
 import jwtDecode from 'jwt-decode';
 
-
-const decodeToken = () => {
-  try {
-    const token = localStorage.getItem('token'); // Obtener el token
-    if (!token) throw new Error('Token no encontrado');
-
-    const decoded = jwt_decode(token); // Decodificar el token
-
-    if (!decoded.roles) {
-      throw new Error('El token no contiene roles válidos');
+const decodeToken = (token) => {
+    try {
+        if (!token) throw new Error('Token no encontrado');
+        const decoded = jwtDecode(token);
+        if (!decoded.roles) throw new Error('El token no contiene roles válidos');
+        return decoded;
+    } catch (error) {
+        console.error('Error al decodificar el token JWT:', error.message);
+        return null;
     }
-
-    console.log('Token decodificado:', decoded);
-    return decoded;
-  } catch (error) {
-    console.error('Error al decodificar el token JWT:', error.message);
-    return null;
-  }
 };
 
 export default decodeToken;
+
