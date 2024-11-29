@@ -1,9 +1,9 @@
-import { jwt_decode } from 'jwt-decode'; // Exportación nombrada
+import jwt_decode from 'jwt-decode';
 
 const decodeToken = (token) => {
     try {
         if (!token) throw new Error('Token no encontrado');
-        const decoded = jwt_decode(token);
+        const decoded = jwt_decode(token); // Decodificación del token
         if (!decoded.roles) throw new Error('El token no contiene roles válidos');
         return decoded;
     } catch (error) {
