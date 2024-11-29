@@ -5,7 +5,7 @@ export default defineConfig({
   plugins: [react()],
   build: {
     rollupOptions: {
-      external: [], // Especifica módulos externos si alguno necesita excluirse
+      external: ['jwt-decode'], // Marca jwt-decode como externo para evitar problemas
     },
   },
 });
