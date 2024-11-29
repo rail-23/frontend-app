@@ -8,7 +8,7 @@ const Register = () => {
         nombre: '',
         email: '',
         password: '',
-        rol: 'estudiante'
+        rol: 'estudiante',
     });
     const navigate = useNavigate();
 
@@ -16,41 +16,58 @@ const Register = () => {
         const { name, value } = e.target;
         setFormData({
             ...formData,
-            [name]: value
+            [name]: value,
         });
     };
-const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-        const data = await axios.post('/auth/register', formData);
-        alert('Registro exitoso. Por favor, inicia sesión.');
 
-        // Guarda el rol en localStorage
-        localStorage.setItem('rol', formData.rol);
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const data = await axios.post('/auth/register', formData);
+            alert('Registro exitoso. Por favor, inicia sesión.');
 
-        navigate('/login');
-    } catch (error) {
-        console.error('Error en el registro:', error.response?.data || error);
-        alert('Error en el registro. Por favor, intenta nuevamente.');
-    }
-};
+            // Guarda el rol en localStorage
+            localStorage.setItem('rol', formData.rol);
 
-
+            navigate('/login');
+        } catch (error) {
+            console.error('Error en el registro:', error.response?.data || error);
+            alert('Error en el registro. Por favor, intenta nuevamente.');
+        }
+    };
 
     return (
         <form onSubmit={handleSubmit}>
             <h2>Registro</h2>
             <label>
                 Nombre:
-                <input type="text" name="nombre" value={formData.nombre} onChange={handleChange} required />
+                <input
+                    type="text"
+                    name="nombre"
+                    value={formData.nombre}
+                    onChange={handleChange}
+                    required
+                />
             </label>
             <label>
                 Email:
-                <input type="email" name="email" value={formData.email} onChange={handleChange} required />
+                <input
+                    type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    required
+                />
             </label>
             <label>
                 Contraseña:
-                <input type="password" name="password" value={formData.password} onChange={handleChange} required />
+                <input
+                    type="password"
+                    name="password"
+                    value={formData.password}
+                    onChange={handleChange}
+                    required
+                />
             </label>
             <label>
                 Rol:
@@ -60,7 +77,6 @@ const handleSubmit = async (e) => {
                     <option value="vicerrector">Vicerrector</option>
                 </select>
             </label>
-
             <button type="submit">Registrar</button>
         </form>
     );
