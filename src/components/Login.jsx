@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import  useNavigate  from 'react-router-dom';
-import  loginUser  from '../api/services';
-import decodeToken from '../utils/decodeJWT';
+import { useNavigate } from 'react-router-dom';
+import { loginUser } from '../api/services';
 import '../css/Login.css';
 
 const Login = () => {
@@ -13,41 +12,58 @@ const Login = () => {
         setFormData({ ...formData, [name]: value });
     };
 
-   const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-        const data = await loginUser(formData);
-        alert('Inicio de sesión exitoso.');
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const data = await loginUser(formData);
+            alert('Inicio de sesión exitoso.');
 
-        // Obtén el rol desde localStorage
-        const userRole = localStorage.getItem('rol');
+            // Guarda el token en localStorage
+            if (data.token) {
+                localStorage.setItem('token', data.token);
+            }
 
-        // Redirige según el rol del usuario
-        if (userRole === "estudiante") {
-            navigate('/estudiante');
-        } else if (userRole === "decano") {
-            navigate('/decano');
-        } else if (userRole === "vicerrector") {
-            navigate('/vicerrector');
+            // Obtén el rol desde localStorage
+            const userRole = localStorage.getItem('rol');
+
+            // Redirige según el rol del usuario
+            if (userRole === 'estudiante') {
+                navigate('/estudiante');
+            } else if (userRole === 'decano') {
+                navigate('/decano');
+            } else if (userRole === 'vicerrector') {
+                navigate('/vicerrector');
+            } else {
+                throw new Error('Rol desconocido');
+            }
+        } catch (error) {
+            console.error('Error en el inicio de sesión:', error);
+            alert('Error en el inicio de sesión. Por favor, intenta nuevamente.');
         }
-    } catch (error) {
-        console.error('Error en el inicio de sesión:', error);
-        alert('Error en el inicio de sesión. Por favor, intenta nuevamente.');
-    }
-};
-
-
+    };
 
     return (
         <form onSubmit={handleSubmit}>
             <h2>Iniciar Sesión</h2>
             <label>
                 Email:
-                <input type="email" name="email" value={formData.email} onChange={handleChange} required />
+                <input
+                    type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    required
+                />
             </label>
             <label>
                 Contraseña:
-                <input type="password" name="password" value={formData.password} onChange={handleChange} required />
+                <input
+                    type="password"
+                    name="password"
+                    value={formData.password}
+                    onChange={handleChange}
+                    required
+                />
             </label>
             <button type="submit">Iniciar Sesión</button>
         </form>
@@ -55,3 +71,4 @@ const Login = () => {
 };
 
 export default Login;
+
