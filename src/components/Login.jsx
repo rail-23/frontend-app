@@ -19,27 +19,15 @@ const Login = () => {
         const data = await loginUser(formData);
         alert('Inicio de sesión exitoso.');
 
-        // Guarda el token en localStorage
-        if (data.token) {
-            localStorage.setItem('token', data.token);
-        } else {
-            throw new Error('No se recibió token del servidor');
-        }
+        // Obtén el rol desde localStorage
+        const userRole = localStorage.getItem('rol');
 
-        const decodedToken = decodeToken(data.token);
-
-        if (!decodedToken || !decodedToken.roles) {
-            throw new Error('No se encontraron roles en el token');
-        }
-
-        const userRoles = decodedToken.roles;
-
-        // Redirigir según el rol del usuario
-        if (userRoles.includes("estudiante")) {
+        // Redirige según el rol del usuario
+        if (userRole === "estudiante") {
             navigate('/estudiante');
-        } else if (userRoles.includes("decano")) {
+        } else if (userRole === "decano") {
             navigate('/decano');
-        } else if (userRoles.includes("vicerrector")) {
+        } else if (userRole === "vicerrector") {
             navigate('/vicerrector');
         }
     } catch (error) {
@@ -47,6 +35,7 @@ const Login = () => {
         alert('Error en el inicio de sesión. Por favor, intenta nuevamente.');
     }
 };
+
 
 
     return (
