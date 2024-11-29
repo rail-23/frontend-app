@@ -20,28 +20,35 @@ const Login = () => {
     };
 
     const handleSubmit = async (e) => {
-        e.preventDefault();
-        try {
-            const data = await loginUser(formData);
-            alert('Inicio de sesión exitoso.');
+  e.preventDefault();
+  try {
+    const data = await loginUser(formData);
+    alert('Inicio de sesión exitoso.');
 
-            // Decodificar el token para obtener el rol del usuario
-            const decodedToken = decodeJWT(data.token);
-            const userRoles = decodedToken.roles;
+    // Obtén el token desde localStorage
+    const token = localStorage.getItem('token');
+    const decodedToken = decodeJWT(token);
 
-            // Redirigir según el rol del usuario
-            if (userRoles.includes("estudiante")) {
-                navigate('/estudiante'); // Redirige a la página del estudiante
-            } else if (userRoles.includes("decano")) {
-                navigate('/decano'); // Redirige a la página del decano
-            } else if (userRoles.includes("vicerrector")) {
-                navigate('/vicerrector'); // Redirige a la página del vicerrector
-            }
-        } catch (error) {
-            console.error('Error en el inicio de sesión:', error);
-            alert('Error en el inicio de sesión. Por favor, intenta nuevamente.');
-        }
-    };
+    if (!decodedToken || !decodedToken.roles) {
+      throw new Error('No se encontraron roles en el token');
+    }
+
+    const userRoles = decodedToken.roles;
+
+    // Redirigir según el rol del usuario
+    if (userRoles.includes("estudiante")) {
+      navigate('/estudiante'); // Redirige a la página del estudiante
+    } else if (userRoles.includes("decano")) {
+      navigate('/decano'); // Redirige a la página del decano
+    } else if (userRoles.includes("vicerrector")) {
+      navigate('/vicerrector'); // Redirige a la página del vicerrector
+    }
+  } catch (error) {
+    console.error('Error en el inicio de sesión:', error);
+    alert('Error en el inicio de sesión. Por favor, intenta nuevamente.');
+  }
+};
+
 
 
     return (
