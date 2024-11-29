@@ -19,18 +19,22 @@ const Register = () => {
             [name]: value
         });
     };
+const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+        const data = await axios.post('/auth/register', formData);
+        alert('Registro exitoso. Por favor, inicia sesión.');
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        try {
-            await axios.post('/auth/register', formData);
-            alert('Registro exitoso. Por favor, inicia sesión.');
-            navigate('/login');
-        } catch (error) {
-            console.error('Error en el registro:', error.response?.data || error);
-            alert('Error en el registro. Por favor, intenta nuevamente.');
-        }
-    };
+        // Guarda el rol en localStorage
+        localStorage.setItem('rol', formData.rol);
+
+        navigate('/login');
+    } catch (error) {
+        console.error('Error en el registro:', error.response?.data || error);
+        alert('Error en el registro. Por favor, intenta nuevamente.');
+    }
+};
+
 
 
     return (
