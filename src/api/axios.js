@@ -1,16 +1,14 @@
 import axios from 'axios';
 
-// Configuración de axios
 const instance = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:5000', // URL dinámica para backend
+  baseURL: import.meta.env.VITE_API_URL, // Usar la variable de entorno
 });
 
-// Interceptor para incluir el token en cada solicitud
 instance.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('token');
     if (token) {
-      config.headers['x-access-token'] = token; // Header personalizado
+      config.headers['x-access-token'] = token; // Agregar token si existe
     }
     return config;
   },
