@@ -1,4 +1,4 @@
-import jwtDecode from 'jwt-decode';
+import { jwt_decode } from 'jwt-decode'; // Exportación nombrada
 
 const decodeToken = (token) => {
     try {
@@ -12,3 +12,4 @@ const decodeToken = (token) => {
     }
 };
 
+export default decodeToken;
