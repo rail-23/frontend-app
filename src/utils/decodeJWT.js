@@ -3,7 +3,7 @@ import jwtDecode from 'jwt-decode';
 const decodeToken = (token) => {
     try {
         if (!token) throw new Error('Token no encontrado');
-        const decoded = jwtDecode(token);
+        const decoded = jwt_decode(token);
         if (!decoded.roles) throw new Error('El token no contiene roles válidos');
         return decoded;
     } catch (error) {
@@ -11,6 +11,4 @@ const decodeToken = (token) => {
         return null;
     }
 };
-
-export default decodeToken;
 
