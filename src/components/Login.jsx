@@ -13,26 +13,41 @@ const Login = () => {
         setFormData({ ...formData, [name]: value });
     };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        try {
-            const data = await loginUser(formData);
+   const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+        const data = await loginUser(formData);
+        alert('Inicio de sesión exitoso.');
+
+        // Guarda el token en localStorage
+        if (data.token) {
             localStorage.setItem('token', data.token);
-            alert('Inicio de sesión exitoso.');
-
-            const decodedToken = decodeToken(data.token);
-            if (!decodedToken || !decodedToken.roles) throw new Error('No se encontraron roles en el token');
-
-            const userRoles = decodedToken.roles;
-
-            if (userRoles.includes("estudiante")) navigate('/estudiante');
-            else if (userRoles.includes("decano")) navigate('/decano');
-            else if (userRoles.includes("vicerrector")) navigate('/vicerrector');
-        } catch (error) {
-            console.error('Error en el inicio de sesión:', error.message);
-            alert('Error en el inicio de sesión. Por favor, intenta nuevamente.');
+        } else {
+            throw new Error('No se recibió token del servidor');
         }
-    };
+
+        const decodedToken = decodeToken(data.token);
+
+        if (!decodedToken || !decodedToken.roles) {
+            throw new Error('No se encontraron roles en el token');
+        }
+
+        const userRoles = decodedToken.roles;
+
+        // Redirigir según el rol del usuario
+        if (userRoles.includes("estudiante")) {
+            navigate('/estudiante');
+        } else if (userRoles.includes("decano")) {
+            navigate('/decano');
+        } else if (userRoles.includes("vicerrector")) {
+            navigate('/vicerrector');
+        }
+    } catch (error) {
+        console.error('Error en el inicio de sesión:', error);
+        alert('Error en el inicio de sesión. Por favor, intenta nuevamente.');
+    }
+};
+
 
     return (
         <form onSubmit={handleSubmit}>
