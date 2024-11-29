@@ -1,55 +1,38 @@
-import React, {useState } from 'react';
-import  {useNavigate}  from 'react-router-dom';
-import {loginUser}  from '../api/services';
-import  decodeJWT  from '../utils/decodeJWT';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { loginUser } from '../api/services';
+import decodeToken from '../utils/decodeJWT';
 import '../css/Login.css';
 
 const Login = () => {
-    const [formData, setFormData] = useState({
-        email: '',
-        password: ''
-    });
+    const [formData, setFormData] = useState({ email: '', password: '' });
     const navigate = useNavigate();
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setFormData({
-            ...formData,
-            [name]: value
-        });
+        setFormData({ ...formData, [name]: value });
     };
 
     const handleSubmit = async (e) => {
-  e.preventDefault();
-  try {
-    const data = await loginUser(formData);
-    alert('Inicio de sesión exitoso.');
+        e.preventDefault();
+        try {
+            const data = await loginUser(formData);
+            localStorage.setItem('token', data.token);
+            alert('Inicio de sesión exitoso.');
 
-    // Obtén el token desde localStorage
-    const token = localStorage.getItem('token');
-    const decodedToken = decodeJWT(token);
+            const decodedToken = decodeToken(data.token);
+            if (!decodedToken || !decodedToken.roles) throw new Error('No se encontraron roles en el token');
 
-    if (!decodedToken || !decodedToken.roles) {
-      throw new Error('No se encontraron roles en el token');
-    }
+            const userRoles = decodedToken.roles;
 
-    const userRoles = decodedToken.roles;
-
-    // Redirigir según el rol del usuario
-    if (userRoles.includes("estudiante")) {
-      navigate('/estudiante'); // Redirige a la página del estudiante
-    } else if (userRoles.includes("decano")) {
-      navigate('/decano'); // Redirige a la página del decano
-    } else if (userRoles.includes("vicerrector")) {
-      navigate('/vicerrector'); // Redirige a la página del vicerrector
-    }
-  } catch (error) {
-    console.error('Error en el inicio de sesión:', error);
-    alert('Error en el inicio de sesión. Por favor, intenta nuevamente.');
-  }
-};
-
-
+            if (userRoles.includes("estudiante")) navigate('/estudiante');
+            else if (userRoles.includes("decano")) navigate('/decano');
+            else if (userRoles.includes("vicerrector")) navigate('/vicerrector');
+        } catch (error) {
+            console.error('Error en el inicio de sesión:', error.message);
+            alert('Error en el inicio de sesión. Por favor, intenta nuevamente.');
+        }
+    };
 
     return (
         <form onSubmit={handleSubmit}>
