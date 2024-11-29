@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const instance = axios.create({
-  baseURL: import.meta.env.VITE_API_URL, // Usar la variable de entorno
+  baseURL: https://react-mern-express.onrender.com// Usar la variable de entorno
 });
 
 instance.interceptors.request.use(
