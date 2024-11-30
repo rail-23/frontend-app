@@ -1,14 +1,15 @@
 import axios from 'axios';
 
 const instance = axios.create({
-  baseURL: https://react-mern-express.onrender.com// Usar la variable de entorno
+  baseURL: import.meta.env.VITE_BACKEND_URL, // Usamos la variable de entorno aquí
 });
 
+// Interceptores (si usas token):
 instance.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('token');
     if (token) {
-      config.headers['x-access-token'] = token; // Agregar token si existe
+      config.headers['x-access-token'] = token;
     }
     return config;
   },
