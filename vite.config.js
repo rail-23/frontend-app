@@ -7,7 +7,12 @@ export default defineConfig({
         include: ['jwt-decode'],
     },
     server: {
-        host: '0.0.0.0',  
-        port: 5173,        
+        host: '0.0.0.0',
+        port: 5173,
+    },
+    build: {
+        rollupOptions: {
+            external: ['react-router-dom'],  
+        },
     },
 });
