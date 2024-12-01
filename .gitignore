@@ -7,9 +7,14 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
+# Node modules
+node_modules/
+
+# Build output
+/dist
+/dist-ssr
+
+# Environment files
 *.local
 
 # Editor directories and files
@@ -22,3 +27,11 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+*.tgz
+
+# npm package-lock file
+package-lock.json
+
+# Yarn and pnpm lock files (If you're using npm, you may want to exclude these)
+yarn.lock
+pnpm-lock.yaml
