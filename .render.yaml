@@ -2,5 +2,5 @@ services:
   - type: web
     name: frontend
     env: node
-    buildCommand: npm cache clean --force && npm install
+    buildCommand: npm cache clean --force && npm install && npm run build
     startCommand: npm run start
