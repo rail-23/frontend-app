@@ -4,11 +4,11 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "start": "react-scripts start",
-    "dev": "vite",
-    "build": "vite build",
-    "lint": "eslint .",
-    "preview": "vite preview"
+    "start": "vite",             // Para desarrollo local
+    "dev": "vite",               // Para desarrollo local
+    "build": "vite build",       // Para construir para producción
+    "preview": "vite preview",   // Para previsualizar el build en local
+    "deploy": "vite build && serve -s dist" // Despliegue en producción con Vite y Serve
   },
   "dependencies": {
     "axios": "^1.7.8",
