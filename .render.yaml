@@ -1,7 +1,10 @@
-build:
-  type: node
-  env:
-    - NODE_ENV=production
-  commands:
-    - npm install --legacy-peer-deps  
-    - npm run build                     
+version: 1
+services:
+  - type: web
+    name: frontend
+    env: node
+    buildCommand: npm run build
+    startCommand: npm run preview
+    plan: free
+    branches:
+      - main
