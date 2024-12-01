@@ -9,7 +9,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "start": "vite preview --port 5173",
-    "postinstall": "npm install --legacy-peer-deps"  
+    "postinstall": "npm install --legacy-peer-deps",
     "deploy": "echo 'Deploy script not defined'" 
   },
   "dependencies": {
