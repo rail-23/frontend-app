@@ -1,6 +1,7 @@
-services:
-  - type: web
-    name: frontend
-    env: node
-    buildCommand: npm cache clean --force && npm install && npm run build
-    startCommand: npm run start
+build:
+  type: node
+  env:
+    - NODE_ENV=production
+  commands:
+    - npm install --legacy-peer-deps  
+    - npm run build                     
